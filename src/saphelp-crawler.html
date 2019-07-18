@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script> -->
+    <style type="text/css">
+        ul {
+            margin-bottom: 10px;
+        },
+
+        .collapse {
+            font-size: 17px;
+        },
+
+        .hasChildren {
+
+        }
+    </style>
+</head>
+
+<body>
+    <ul id="root"></div>
+    <script type="text/javascript">
+        /*
+        - Usage:
+            1. Modify version and product
+            2. Open html page
+            3. Save as html page
+            4. Remove local jquery and uncomment external jquery ref
+
+        - Read tree from one main page (get json)
+        - Fire request to all pages
+            - curl 'https://cors-anywhere.herokuapp.com/https://9gag.com' -H 'origin: www.google.com'
+            - get all html5.uacp
+            - then https://help.sap.com/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio=9d346683b0084da2938be8a285c0c27a&language=en-US&state=PRODUCTION&toc=1&version=1811
+        - todo: apply grouping/sorting and include additional links
+        - todo: show number of pages at the end
+
+
+        Sample urls:
+        https://help.sap.com/viewer/product/SAP_COMMERCE/1811/en-US
+            https://help.sap.com/viewer/dc198ac31ba24dce96149c8480be955f/1811/en-US
+                https://help.sap.com/viewer/dc198ac31ba24dce96149c8480be955f/1811/en-US/1c6c687ad0ed4964bb43d409818d23a2.html
+
+        https://help.sap.com/viewer/product/SAP_COMMERCE_CLOUD_PUBLIC_CLOUD/SHIP/en-US
+            https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/SHIP/en-US
+                https://help.sap.com/viewer/1be46286b36a4aa48205be5a96240672/SHIP/en-US/0b8840f244cf4004947e0c4050ea2b66.html
+        */
+        
+        const proxy = "https://cors-anywhere.herokuapp.com/"
+        const version = "1905" // E.g. SHIP
+        const product = "SAP_COMMERCE" // E.g. SAP_COMMERCE_CLOUD_PUBLIC_CLOUD
+
+        const shouldRender = document.querySelectorAll('ul').length == 1
+
+        $(function() {
+            (async function(){
+                if (shouldRender) {
+                    const baseUrl = proxy + "https://help.sap.com/http.svc/productpage?locale=en-US&onlyproduct=false&product=" + product + "&state=PRODUCTION&version=" + version
+                    const resp = await fetch(baseUrl)
+                    const json = await resp.json()
+
+                    const pages = json.data.deliverables
+                                    .filter(d => d.transtype === "html5.uacp")
+                                    .sort((a, b) => b.title.localeCompare(a.title))
+                                    .map(d => proxy + "https://help.sap.com/http.svc/pagecontent?deliverable_id=" + d.id + "&deliverable_loio=" + d.loio)
+                                    // old version > .map(d => proxy + "https://help.sap.com/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio=" + d.loio + "&language=en-US&state=PRODUCTION&toc=1&version=" + version)
+                
+                    const root = document.getElementById("root")
+                    for (var i = 0; i < pages.length; i++) {
+                        const pageJson = await fetch(pages[i]).then(r => r.json())
+                        const pageToc = pageJson.data.deliverable.fullToc
+                        const li = createItem(pageToc[0], pageJson.data.deliverable.loio)
+                        root.prepend(li)
+                    }
+                }
+            
+                addExpandAndCollapseElements()
+            })()
+        });
+
+        function createItem(item, parentUrl) {
+            const li = document.createElement("li")
+            const link = document.createElement("a")
+            link.innerHTML = item.t
+            const url = "https://help.sap.com/viewer/" + parentUrl + "/" + version + "/en-US/" + item.u
+            link.setAttribute("href", url)
+            li.appendChild(link)
+
+            if (item.c.length > 0) {
+                li.classList.add("hasChildren")
+                const ul = document.createElement("ul")
+                li.appendChild(ul)
+                for (var i = 0; i < item.c.length; i++) {
+                    const liChild = createItem(item.c[i], parentUrl)
+                    ul.appendChild(liChild)
+                }
+            }
+            return li
+        }
+
+        function addExpandAndCollapseElements() {
+          
+            if (shouldRender) {
+                $("body").prepend("<a id='js-expandall' href='#'>Expand all</a>");
+
+                $("li").each(function(){
+                    var a = $(this).children("a");
+                    var parentTitle = $(this).parent().parent().children("a").attr("title");
+                    parentTitle = !parentTitle ? "" : parentTitle += "\n";
+                    a.attr("title", parentTitle + "> " + a.text());
+                });
+
+                $("li").each(function() {
+                    if ($(this).children("ul").length > 0) {
+                        $(this).prepend('<a class="collapse" href="#">-</a>&nbsp; <a class="expand" href="#">+</a>&nbsp; <a class="expand-all" href="#">+</a>&nbsp;');
+                    }
+                });
+                
+                $("ul").hide();
+                $("body").children("ul").show();
+                $("body").children("ul").children("li").each(function(){
+                    $(this).children("ul").show();
+                });
+            }
+
+            $("#js-expandall").click(function(e) {
+                e.preventDefault();
+                $("ul").show();
+            });
+
+            $(".collapse").click(function(e) {
+                e.preventDefault();
+                $(this).parent().find("ul").hide();
+            });
+            $(".expand-all").click(function(e) {
+                e.preventDefault();
+                $(this).parent().find("ul").show();
+            });
+            $(".expand").click(function(e) {
+                e.preventDefault();
+                $(this).parent().children("ul").show();
+            });
+        }
+    </script>
+</body>
+</html>
