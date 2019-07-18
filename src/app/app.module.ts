@@ -7,6 +7,7 @@ import { TopHeaderComponent } from './top-header/top-header.component';
 import { HomeComponent } from './home/home.component';
 import { TocFormComponent } from './toc-form/toc-form.component';
 import { TocComponent } from './toc/toc.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { TocComponent } from './toc/toc.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TocComponent implements OnInit {
 
+  links = ['abc', 'dce'];
+
   constructor() { }
 
   ngOnInit() {

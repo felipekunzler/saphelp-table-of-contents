@@ -1,1 +1,13 @@
-<p>toc-form works!</p>
+<form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)">
+    <div>
+        <label>Product Code</label>
+        <input type="text" formControlName="code">
+    </div>
+
+    <div>
+        <label>Version</label>
+        <input type="text" formControlName="version">
+    </div>
+
+    <button class="button" type="submit">Load</button>
+</form>
