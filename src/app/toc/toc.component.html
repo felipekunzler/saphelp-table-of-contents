@@ -1,4 +1,12 @@
-<h2>ToC</h2>
-<div *ngFor="let link of links">
-    <span>{{ link }} </span>
-</div>
+
+<ul *ngIf="link.visible">
+    <li>{{ link.name }}</li>
+    <button (click)="onCollapseAllClick()">-</button>
+    <button (click)="onExpandAllClick()">+</button>
+    <button (click)="onExpandClick()">++</button>
+    <ul>
+        <div *ngFor="let item of link.children">
+            <app-toc [link]="item"></app-toc>
+        </div>
+    </ul>
+</ul>

@@ -11,3 +11,8 @@
 
     <button class="button" type="submit">Load</button>
 </form>
+
+<h2>ToC</h2>
+<div *ngFor="let link of links">
+    <app-toc [link]="link"></app-toc>
+</div>

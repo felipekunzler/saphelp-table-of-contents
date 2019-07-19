@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { TocService } from '../toc.service';
+import mockLinks from '../../mock/links';
 
 @Component({
   selector: 'app-toc-form',
@@ -9,9 +11,11 @@ import { FormBuilder } from '@angular/forms';
 export class TocFormComponent {
 
   tocForm;
+  links = mockLinks;
 
   constructor(
     private formBuilder: FormBuilder,
+    private tocService: TocService,
   ) {
     this.tocForm = this.formBuilder.group({
       code: '',
@@ -20,7 +24,7 @@ export class TocFormComponent {
   }
 
   onSubmit(tocFormData) {
-    console.log(tocFormData);
+    //this.links = this.tocService.buildTocTree(tocFormData.code, tocFormData.version);
   }
 
 }
