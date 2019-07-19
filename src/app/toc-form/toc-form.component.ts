@@ -28,7 +28,10 @@ export class TocFormComponent {
     // TODO: Properly sort root pages
     this.links = [];
     const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
-    observable.subscribe(toc => this.links.push(toc));
+    observable.subscribe(toc => {
+      this.links.push(toc);
+      this.links.sort((a, b) => a.name.localeCompare(b.name));
+    });
   }
 
   onExpandAllPagesClick() {

@@ -22,7 +22,6 @@ export class TocService {
       resp.subscribe(json => {
         const pages = (json as any).data.deliverables
           .filter(d => d.transtype === 'html5.uacp')
-          .sort((a, b) => b.title.localeCompare(a.title))
           .map(d => proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
 
         for (const page of pages) {
