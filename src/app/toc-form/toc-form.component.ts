@@ -13,6 +13,7 @@ export class TocFormComponent implements OnInit {
   tocForm;
   links: TocNode[] = [];
   loading = false;
+  pagesLoaded = 0;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,16 +31,26 @@ export class TocFormComponent implements OnInit {
 
   onSubmit(tocFormData) {
     this.loading = true;
+    this.pagesLoaded = 0;
     this.links = [];
     const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
     observable.subscribe({
         next: toc => {
           this.links.push(toc);
+          this.pagesLoaded += this.getNumberOfPages(toc);
           this.links.sort((a, b) => a.name.localeCompare(b.name));
         },
         complete: () => this.loading = false
       }
     );
+  }
+
+  getNumberOfPages(item: TocNode) {
+    let count = item.children.length;
+    for (const child of item.children) {
+      count += this.getNumberOfPages(child);
+    }
+    return count;
   }
 
   onExpandAllPagesClick() {

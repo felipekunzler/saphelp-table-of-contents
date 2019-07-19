@@ -12,9 +12,12 @@
     <button class="button" type="submit">Load</button>
 </form>
 <br>
+<div>Links loaded: {{ pagesLoaded }}</div>
+<br>
 <div *ngIf="loading">
     <span>Loading Table of Contents...</span>
 </div>
+
 <div *ngIf="!loading">
     <button (click)="onExpandAllPagesClick()">Expand all</button>
     <button (click)="onCollapseAllPagesClick()">Collapse all</button>
