@@ -16,23 +16,24 @@ export class TocComponent {
     private tocService: TocService
   ) { }
 
-  onExpandClick() {
-    if (this.link.children) {
-      this.link.children[0].children[0].visible = true;
-    }
+  onExpandClick(link: TocNode) {
+    link.children.forEach(node => {
+      node.visible = true;
+    });
   }
 
-  onExpandAllClick() {
-    if (this.link.children) {
-      this.link.children[0].children[0].visible = true;
-    }
+  onExpandAllClick(link: TocNode) {
+    link.children.forEach(node => {
+      node.visible = true;
+      this.onExpandAllClick(node);
+    });
   }
 
-  onCollapseAllClick() {
-    // for each children then call it again recursively.
-    if (this.link.children) {
-      this.link.children[0].visible = false;
-    }
+  onCollapseAllClick(link: TocNode) {
+    link.children.forEach(node => {
+      node.visible = false;
+      this.onCollapseAllClick(node);
+    });
   }
 
 }

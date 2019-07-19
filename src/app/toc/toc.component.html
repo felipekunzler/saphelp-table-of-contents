@@ -1,9 +1,9 @@
 
 <ul *ngIf="link.visible">
     <li>{{ link.name }}</li>
-    <button (click)="onCollapseAllClick()">-</button>
-    <button (click)="onExpandAllClick()">+</button>
-    <button (click)="onExpandClick()">++</button>
+    <button (click)="onCollapseAllClick(link)">-</button>
+    <button (click)="onExpandClick(link)">+</button>
+    <button (click)="onExpandAllClick(link)">++</button>
     <ul>
         <div *ngFor="let item of link.children">
             <app-toc [link]="item"></app-toc>
