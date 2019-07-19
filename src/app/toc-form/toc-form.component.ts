@@ -25,7 +25,8 @@ export class TocFormComponent {
   }
 
   onSubmit(tocFormData) {
-    //this.links = this.tocService.buildTocTree(tocFormData.code, tocFormData.version);
+    this.tocService.buildTocTree(tocFormData.code, tocFormData.version)
+      .then(value => this.links = value);
   }
 
 }
