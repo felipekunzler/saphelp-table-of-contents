@@ -19,14 +19,15 @@ export class TocFormComponent {
     private tocService: TocService,
   ) {
     this.tocForm = this.formBuilder.group({
-      code: '',
-      version: ''
+      product: 'SAP_COMMERCE',
+      version: '1905'
     });
   }
 
   onSubmit(tocFormData) {
+    // TODO: Properly sort root pages
     this.links = [];
-    const observable = this.tocService.buildTocTree(tocFormData.code, tocFormData.version);
+    const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
     observable.subscribe(toc => this.links.push(toc));
   }
 

@@ -13,12 +13,8 @@ export class TocService {
     private http: HttpClient
   ) { }
 
-  buildTocTree(code: string, version: string): Observable<TocNode> {
+  buildTocTree(product: string, version: string): Observable<TocNode> {
     const proxy = 'https://cors-anywhere.herokuapp.com/';
-    version = '1905'; // E.g. SHIP
-    code = 'SAP_COMMERCE'; // E.g. SAP_COMMERCE_CLOUD_PUBLIC_CLOUD
-    const product = code;
-
     const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&onlyproduct=false&product=';
     const baseUrl = proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 
