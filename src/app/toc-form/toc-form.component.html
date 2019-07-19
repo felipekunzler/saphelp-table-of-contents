@@ -9,7 +9,7 @@
         <input type="text" formControlName="version">
     </div>
 
-    <button class="button" type="submit">Load</button>
+    <button class="button" type="submit" [disabled]="loading">Load</button>
 </form>
 <br>
 <div>Links loaded: {{ pagesLoaded }}</div>
