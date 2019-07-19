@@ -1,4 +1,4 @@
-<div *ngIf="link.visible">
+<div [ngClass]="{'hidden': !link.visible}">
     <li>
         <span *ngIf="link.children.length">
             <a [routerLink]="" class='node-link' (click)="onCollapseAllClick(link)">-</a>
@@ -8,7 +8,7 @@
         <a [href]="link.link">{{ link.name }}</a>
     </li>
 
-    <ul *ngIf="link.children.length">
+    <ul [ngClass]="{'hidden': !link.children.length}">
         <div *ngFor="let item of link.children">
             <app-toc [link]="item"></app-toc>
         </div>
