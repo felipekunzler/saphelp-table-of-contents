@@ -4,9 +4,9 @@
         <span *ngIf="link.children.length">
             <a [routerLink]="" class='node-link' (click)="onCollapseAllClick(link)">-</a>
             <a [routerLink]="" class='node-link' (click)="onExpandClick(link)">+</a>
-            <a [routerLink]="" (click)="onExpandAllClick(link)">+</a>
+            <a [routerLink]="" class='node-link' (click)="onExpandAllClick(link)">+</a>
         </span>
-        {{ link.name }}
+        <a [href]="link.link">{{ link.name }}</a>
     </li>
     
     <ul>

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TocNode } from './toc-node';
-import { Observable, observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -21,20 +20,21 @@ export class TocService {
     return new Observable<TocNode>(observable => {
       const resp = this.http.get(baseUrl);
       resp.subscribe(json => {
-        const pages = json.data.deliverables
+        const pages = (json as any).data.deliverables
           .filter(d => d.transtype === 'html5.uacp')
           .sort((a, b) => b.title.localeCompare(a.title))
           .map(d => proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
 
         for (const page of pages) {
           this.http.get(page).subscribe(pageJson => {
-            const pageToc = pageJson.data.deliverable.fullToc;
+            const pageToc = (pageJson as any).data.deliverable.fullToc;
             const item = pageToc[0];
-            const loio = pageJson.data.deliverable.loio;
+            const loio = (pageJson as any).data.deliverable.loio;
 
-            const tocNode = this.createTocNode(item);
+            const tocNode = this.createTocNode(item, loio, version);
             tocNode.visible = true;
             tocNode.children.forEach(child => child.visible = true);
+
             observable.next(tocNode);
           });
         }
@@ -42,14 +42,16 @@ export class TocService {
     });
   }
 
-  createTocNode(item): TocNode {
+  createTocNode(item, parentUrl, version): TocNode {
+    const url = 'https://help.sap.com/viewer/' + parentUrl + '/' + version + '/en-US/' + item.u;
     const tocNode: TocNode = {
       name: item.t,
+      link: url,
       visible: false,
       children: []
     };
     for (const child of item.c) {
-      tocNode.children.push(this.createTocNode(child));
+      tocNode.children.push(this.createTocNode(child, parentUrl, version));
     }
     return tocNode;
   }

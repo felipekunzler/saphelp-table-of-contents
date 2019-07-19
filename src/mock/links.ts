@@ -3,14 +3,17 @@ import { TocNode } from 'src/app/toc-node';
 const links: TocNode[] = [
   {
     name: 'a1',
+    link: 'https://google.com',
     visible: true,
     children: [
       {
         name: 'b2',
+        link: 'https://google.com',
         visible: true,
         children: [
           {
             name: 'c1',
+            link: 'https://google.com',
             visible: true,
             children: []
           }
@@ -18,6 +21,7 @@ const links: TocNode[] = [
       },
       {
         name: 'b1',
+        link: 'https://google.com',
         visible: true,
         children: []
       },
@@ -25,14 +29,17 @@ const links: TocNode[] = [
   },
   {
     name: 'aa1',
+    link: 'https://google.com',
     visible: true,
     children: [
       {
         name: 'bb2',
+        link: 'https://google.com',
         visible: true,
         children: [
           {
             name: 'cc1',
+            link: 'https://google.com',
             visible: true,
             children: []
           }
@@ -40,6 +47,7 @@ const links: TocNode[] = [
       },
       {
         name: 'bb1',
+        link: 'https://google.com',
         visible: true,
         children: []
       },
