@@ -6,9 +6,9 @@ import { TocNode } from '../toc-node';
 /**
  * Todos:
  *  - Fetch products and versions (dropdown + autocomplete)
- *  - Improve performance for expand all
- *  - Prettify the page
- *  - Second load should interrupt the first one
+ *  - Settings for additional proxies?
+ *  - Github link
+ *  - Update readme
  */
 @Component({
   selector: 'app-toc',
