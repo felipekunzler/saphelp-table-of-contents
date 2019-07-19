@@ -17,7 +17,7 @@ body {
   flex-direction: row;
 }
 
-router-outlet + *  {
+app-home {
   padding: 0 16px;
 }
 

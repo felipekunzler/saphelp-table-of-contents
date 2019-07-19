@@ -1,9 +1,9 @@
 <div [ngClass]="{'hidden': !link.visible}">
     <li>
         <span *ngIf="link.children.length">
-            <a href="#" class='node-link' (click)="onCollapseAllClick(link)">-</a>
-            <a href="#" class='node-link' (click)="onExpandClick(link)">+</a>
-            <a href="#" class='node-link' (click)="onExpandAllClick(link)">+</a>
+            <a href="javascript:void(0)" class='node-link' (click)="onCollapseAllClick(link)">-</a>
+            <a href="javascript:void(0)" class='node-link' (click)="onExpandClick(link)">+</a>
+            <a href="javascript:void(0)" class='node-link' (click)="onExpandAllClick(link)">+</a>
         </span>
         <a [href]="link.link">{{ link.name }}</a>
     </li>
