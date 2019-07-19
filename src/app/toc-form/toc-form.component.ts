@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { TocService } from '../toc.service';
 import { TocNode } from '../toc-node';
+import { fakeAsync } from '@angular/core/testing';
 
 @Component({
   selector: 'app-toc-form',

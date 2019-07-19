@@ -20,6 +20,11 @@ export class TocService {
     return new Observable<TocNode>(observable => {
       const resp = this.http.get(baseUrl);
       resp.subscribe(json => {
+        if (!(json as any).data.deliverables) {
+          observable.complete();
+          return;
+        }
+
         const pages = (json as any).data.deliverables
           .filter(d => d.transtype === 'html5.uacp')
           .map(d => proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);

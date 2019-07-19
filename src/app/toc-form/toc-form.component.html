@@ -2,14 +2,13 @@
     <div>
         <label>Product Code </label>
         <input type="text" formControlName="product">
-    </div>
 
-    <div>
-        <label>Version </label>
+        <label> Version </label>
         <input type="text" formControlName="version">
+
+        <button class="button" type="submit" [disabled]="loading">Load</button>
     </div>
 
-    <button class="button" type="submit" [disabled]="loading">Load</button>
 </form>
 <br>
 <div>Links loaded: {{ pagesLoaded }}</div>
