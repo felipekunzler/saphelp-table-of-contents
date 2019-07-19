@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { TocService } from '../toc.service';
 import mockLinks from '../../mock/links';
+import { TocNode } from '../toc-node';
 
 @Component({
   selector: 'app-toc-form',
@@ -11,7 +12,7 @@ import mockLinks from '../../mock/links';
 export class TocFormComponent {
 
   tocForm;
-  links = mockLinks;
+  links: TocNode[] = mockLinks;
 
   constructor(
     private formBuilder: FormBuilder,

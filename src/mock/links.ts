@@ -1,4 +1,6 @@
-export default [
+import { TocNode } from 'src/app/toc-node';
+
+const links: TocNode[] = [
   {
     name: 'a1',
     visible: true,
@@ -9,13 +11,15 @@ export default [
         children: [
           {
             name: 'c1',
-            visible: true
+            visible: true,
+            children: []
           }
         ]
       },
       {
         name: 'b1',
-        visible: true
+        visible: true,
+        children: []
       },
     ]
   },
@@ -29,14 +33,18 @@ export default [
         children: [
           {
             name: 'cc1',
-            visible: true
+            visible: true,
+            children: []
           }
         ]
       },
       {
         name: 'bb1',
-        visible: true
+        visible: true,
+        children: []
       },
     ]
   }
 ];
+
+export default links;

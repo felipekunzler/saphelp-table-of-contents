@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TocService } from '../toc.service';
+import { TocNode } from '../toc-node';
 
 @Component({
   selector: 'app-toc',
@@ -9,7 +10,7 @@ import { TocService } from '../toc.service';
 export class TocComponent {
 
   @Input()
-  link;
+  link: TocNode;
 
   constructor(
     private tocService: TocService
