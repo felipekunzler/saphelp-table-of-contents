@@ -1,9 +1,12 @@
 
 <ul *ngIf="link.visible">
-    <li>{{ link.name }}</li>
-    <button (click)="onCollapseAllClick(link)">-</button>
-    <button (click)="onExpandClick(link)">+</button>
-    <button (click)="onExpandAllClick(link)">++</button>
+    <li>
+        <a class='node-link' href="#" (click)="onCollapseAllClick(link)">-</a>
+        <a class='node-link' href="#" (click)="onExpandClick(link)">+</a>
+        <a href="#" (click)="onExpandAllClick(link)">++</a>
+        {{ link.name }}
+    </li>
+    
     <ul>
         <div *ngFor="let item of link.children">
             <app-toc [link]="item"></app-toc>
