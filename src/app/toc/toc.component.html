@@ -8,7 +8,7 @@
         <a [href]="link.link">{{ link.name }}</a>
     </li>
 
-    <ul [ngClass]="{'hidden': !link.children.length}">
+    <ul *ngIf="link.children.length" [ngClass]="{'hidden': !link.children[0].visible}">
         <div *ngFor="let item of link.children">
             <app-toc [link]="item"></app-toc>
         </div>
