@@ -2,6 +2,14 @@ import { Component, OnInit, Input } from '@angular/core';
 import { TocService } from '../toc.service';
 import { TocNode } from '../toc-node';
 
+
+/**
+ * Todos:
+ *  - Fetch products and versions (dropdown + autocomplete)
+ *  - Improve performance for expand all
+ *  - Prettify the page
+ *  - Second load should interrupt the first one
+ */
 @Component({
   selector: 'app-toc',
   templateUrl: './toc.component.html',

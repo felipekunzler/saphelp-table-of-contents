@@ -11,10 +11,14 @@
 
     <button class="button" type="submit">Load</button>
 </form>
-
-<h2>ToC</h2>
-<button (click)="onExpandAllPagesClick()">Expand all</button>
-<button (click)="onCollapseAllPagesClick()">Collapse all</button>
+<br>
+<div *ngIf="loading">
+    <span>Loading Table of Contents...</span>
+</div>
+<div *ngIf="!loading">
+    <button (click)="onExpandAllPagesClick()">Expand all</button>
+    <button (click)="onCollapseAllPagesClick()">Collapse all</button>
+</div>
 <div *ngFor="let link of links">
     <app-toc [link]="link"></app-toc>
 </div>

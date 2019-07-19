@@ -24,6 +24,7 @@ export class TocService {
           .filter(d => d.transtype === 'html5.uacp')
           .map(d => proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
 
+        let loadedPages = 0;
         for (const page of pages) {
           this.http.get(page).subscribe(pageJson => {
             const pageToc = (pageJson as any).data.deliverable.fullToc;
@@ -35,6 +36,10 @@ export class TocService {
             tocNode.children.forEach(child => child.visible = true);
 
             observable.next(tocNode);
+            loadedPages++;
+            if (loadedPages === pages.length) {
+              observable.complete();
+            }
           });
         }
       });

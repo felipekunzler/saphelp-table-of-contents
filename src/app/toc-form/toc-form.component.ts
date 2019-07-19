@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { TocService } from '../toc.service';
-import mockLinks from '../../mock/links';
 import { TocNode } from '../toc-node';
 
 @Component({
@@ -9,10 +8,11 @@ import { TocNode } from '../toc-node';
   templateUrl: './toc-form.component.html',
   styleUrls: ['./toc-form.component.scss']
 })
-export class TocFormComponent {
+export class TocFormComponent implements OnInit {
 
   tocForm;
-  links: TocNode[] = mockLinks;
+  links: TocNode[] = [];
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,14 +24,22 @@ export class TocFormComponent {
     });
   }
 
+  ngOnInit() {
+    this.onSubmit(this.tocForm.value);
+  }
+
   onSubmit(tocFormData) {
-    // TODO: Properly sort root pages
+    this.loading = true;
     this.links = [];
     const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
-    observable.subscribe(toc => {
-      this.links.push(toc);
-      this.links.sort((a, b) => a.name.localeCompare(b.name));
-    });
+    observable.subscribe({
+        next: toc => {
+          this.links.push(toc);
+          this.links.sort((a, b) => a.name.localeCompare(b.name));
+        },
+        complete: () => this.loading = false
+      }
+    );
   }
 
   onExpandAllPagesClick() {

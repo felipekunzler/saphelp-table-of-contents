@@ -9,7 +9,7 @@
         <a [href]="link.link">{{ link.name }}</a>
     </li>
     
-    <ul>
+    <ul *ngIf="link.children.length">
         <div *ngFor="let item of link.children">
             <app-toc [link]="item"></app-toc>
         </div>
