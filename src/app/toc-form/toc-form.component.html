@@ -20,5 +20,7 @@
     <button (click)="onCollapseAllPagesClick()">Collapse all</button>
 </div>
 <div *ngFor="let link of links">
-    <app-toc [link]="link"></app-toc>
+    <ul>
+        <app-toc [link]="link"></app-toc>
+    </ul>
 </div>
