@@ -54,4 +54,18 @@ export class TocService {
     return tocNode;
   }
 
+  onExpandAllClick(link: TocNode) {
+    link.children.forEach(node => {
+      node.visible = true;
+      this.onExpandAllClick(node);
+    });
+  }
+
+  onCollapseAllClick(link: TocNode) {
+    link.children.forEach(node => {
+      node.visible = false;
+      this.onCollapseAllClick(node);
+    });
+  }
+
 }

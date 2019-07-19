@@ -1,11 +1,11 @@
 <form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)">
     <div>
-        <label>Product Code</label>
+        <label>Product Code </label>
         <input type="text" formControlName="product">
     </div>
 
     <div>
-        <label>Version</label>
+        <label>Version </label>
         <input type="text" formControlName="version">
     </div>
 
@@ -13,6 +13,8 @@
 </form>
 
 <h2>ToC</h2>
+<button (click)="onExpandAllPagesClick()">Expand all</button>
+<button (click)="onCollapseAllPagesClick()">Collapse all</button>
 <div *ngFor="let link of links">
     <app-toc [link]="link"></app-toc>
 </div>

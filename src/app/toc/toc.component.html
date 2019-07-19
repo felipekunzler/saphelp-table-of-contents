@@ -2,9 +2,9 @@
 <ul *ngIf="link.visible">
     <li>
         <span *ngIf="link.children.length">
-            <a class='node-link' href="#" (click)="onCollapseAllClick(link)">-</a>
-            <a class='node-link' href="#" (click)="onExpandClick(link)">+</a>
-            <a href="#" (click)="onExpandAllClick(link)">+</a>
+            <a [routerLink]="" class='node-link' (click)="onCollapseAllClick(link)">-</a>
+            <a [routerLink]="" class='node-link' (click)="onExpandClick(link)">+</a>
+            <a [routerLink]="" (click)="onExpandAllClick(link)">+</a>
         </span>
         {{ link.name }}
     </li>

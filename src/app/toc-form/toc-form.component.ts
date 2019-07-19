@@ -31,4 +31,16 @@ export class TocFormComponent {
     observable.subscribe(toc => this.links.push(toc));
   }
 
+  onExpandAllPagesClick() {
+    this.links.forEach(link => this.tocService.onExpandAllClick(link));
+  }
+
+  onCollapseAllPagesClick() {
+    for (const link of this.links) {
+      for (const child of link.children) {
+        this.tocService.onCollapseAllClick(child);
+      }
+    }
+  }
+
 }
