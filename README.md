@@ -1,6 +1,6 @@
 # SAP Help Complete Table of Contents
 
-Gathers the ToC from all pages of a given SAP product and version, allowing you to easily nagivate through the complete table of contents by expanding and collapsing its items. Hit `Expand all` and quickly search for any page using `Ctrl+F`.
+Gathers the ToC from all pages of a given SAP product and version, allowing you to easily navigate through the complete table of contents by expanding and collapsing its items. Hit `Expand all` and quickly search for any page using `Ctrl+F`.
 
 ![](https://user-images.githubusercontent.com/9336586/61579180-493e7a80-aad8-11e9-8266-542eb7bd490e.png)
 
