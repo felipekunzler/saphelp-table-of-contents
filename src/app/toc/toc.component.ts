@@ -7,8 +7,6 @@ import { TocNode } from '../toc-node';
  * Todos:
  *  - Fetch products and versions (dropdown + autocomplete)
  *  - Settings for additional proxies?
- *  - Github link
- *  - Update readme
  */
 @Component({
   selector: 'app-toc',
