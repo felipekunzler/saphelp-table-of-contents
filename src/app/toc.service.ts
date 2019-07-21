@@ -13,7 +13,7 @@ export class TocService {
   ) { }
 
   buildTocTree(product: string, version: string): Observable<TocNode> {
-    const proxy = 'https://cors-anywhere.herokuapp.com/';
+    const proxy = 'https://custom-cors-anywhere.herokuapp.com/';
     const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&onlyproduct=false&product=';
     const baseUrl = proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 

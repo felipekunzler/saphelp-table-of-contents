@@ -7,6 +7,8 @@ import { TocNode } from '../toc-node';
  * Todos:
  *  - Fetch products and versions (dropdown + autocomplete)
  *  - Settings for additional proxies?
+ *  - Display message when proxy fails (too many requests, try later)
+ *  - Maybe disable automatic load when the page is opened?
  */
 @Component({
   selector: 'app-toc',
