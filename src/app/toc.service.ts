@@ -77,7 +77,7 @@ export class TocService {
       .pipe(
         map(res => {
           const products = [];
-          for (const product of res.data.products) {
+          for (const product of (res as any).data.products) {
             products.push({
               name: product.title,
               code: product.url.slice(10, product.url.length)
@@ -94,7 +94,7 @@ export class TocService {
       .pipe(
         share(),
         map(res => {
-          const versions = res.data.version;
+          const versions = (res as any).data.version;
           const sortedVersions = this.sortVersions(versions.map(obj => obj.key));
           const keys = sortedVersions.map(key => {
             return {
@@ -122,7 +122,7 @@ export class TocService {
   }
 
   sortVersions(e) {
-    for (var t = [], n = [], r = 0, a = 0; a < e.length; a++) {
+    for (var t: any = [], n = [], r = 0, a = 0; a < e.length; a++) {
       var i = e[a];
       if (!/^(\d+\.)*\d+$/.test(i)) {
         var t = e.sort().reverse();
