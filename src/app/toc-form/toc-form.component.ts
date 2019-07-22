@@ -42,7 +42,7 @@ export class TocFormComponent implements OnInit {
     observable.subscribe({
       next: toc => {
         this.links.push(toc);
-        this.pagesLoaded += this.getNumberOfPages(toc);
+        this.pagesLoaded += this.getNumberOfPages(toc) + 1;
         this.links.sort((a, b) => a.name.localeCompare(b.name));
       },
       complete: () => this.loading = false

@@ -39,7 +39,13 @@ export class TocService {
         for (const page of pages) {
           this.http.get(page).subscribe(pageJson => {
             const pageToc = (pageJson as any).data.deliverable.fullToc;
-            const item = pageToc[0];
+
+            const root = {
+              u: '',
+              t: (pageJson as any).data.deliverable.title,
+              c: pageToc
+            };
+            const item = pageToc.length > 1 ? root : pageToc[0];
             const loio = (pageJson as any).data.deliverable.loio;
 
             const tocNode = this.createTocNode(item, loio, version);
