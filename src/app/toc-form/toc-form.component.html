@@ -1,27 +1,30 @@
-<form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)">
-    <div class="row align-items-end">
-        <div  class="col-md-6">
+<form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)" style="max-width: 700px">
+    <div class="row">
+        <div class="col-12 col-md-8">
             <label>Product</label>
-            <ng-select [items]="products | async" 
+            <ng-select [items]="products | async"
                 bindLabel="name"
                 bindValue="code"    
                 formControlName="product"
                 (change)="onProductChanged(false)">
             </ng-select>
         </div>
-        <div class="col-md-4">
-            <label>Version</label>
-            <ng-select [items]="versions | async" 
-                bindLabel="value"
-                bindValue="key"
-                formControlName="version">
-            </ng-select>
-        </div>
-        <div class="col-md-2 ">
-            <button class="button" type="submit" [disabled]="loading" >Load</button>
+        <div class="col-12 col-md-4">
+            <div class="row align-items-end">
+                <div class="col">     
+                    <label>Version</label>
+                    <ng-select [items]="versions | async" 
+                        bindLabel="value"
+                        bindValue="key"
+                        formControlName="version">
+                    </ng-select>
+                </div>
+                <div class="col-auto">
+                    <button class="button" type="submit" [disabled]="loading" >Load</button>
+                </div>
+            </div>
         </div>
     </div>
-
 </form>
 
 <div style="margin-top: 10px">Links loaded: {{ pagesLoaded }}</div>
