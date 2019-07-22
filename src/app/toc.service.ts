@@ -67,6 +67,23 @@ export class TocService {
     return tocNode;
   }
 
+  fetchProducts() {
+    const url = this.proxy + 'https://help.sap.com/http.svc/search?area=browser&state=PRODUCTION';
+    return this.http.get(url)
+      .pipe(
+        map(res => {
+          const products = [];
+          for (const product of res.data.products) {
+            products.push({
+              name: product.title,
+              code: product.url.slice(10, product.url.length)
+            });
+          }
+          return products;
+        })
+      );
+  }
+
   fetchVersions(product: string) {
     const url = this.proxy + 'https://help.sap.com/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
     return this.http.get(url)

@@ -8,6 +8,7 @@ import { TocNode } from '../toc-node';
  *  - Fetch products and versions (dropdown + autocomplete)
  *  - Settings for additional proxies?
  *  - Display message when proxy fails (too many requests, try later)
+ *  - Unblock load if no links found.
  */
 @Component({
   selector: 'app-toc',

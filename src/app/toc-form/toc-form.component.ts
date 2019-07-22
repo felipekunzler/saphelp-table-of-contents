@@ -15,17 +15,9 @@ export class TocFormComponent implements OnInit {
   links: TocNode[] = [];
   loading = false;
   pagesLoaded = 0;
-  products = [
-    {
-      name: 'SAP Commerce',
-      code: 'SAP_COMMERCE'
-    }, {
-      name: 'SAP Commerce Cloud',
-      code: 'SAP_COMMERCE_CLOUD_PUBLIC_CLOUD'
-    }
-  ];
 
-  versions: Observable<[]>;
+  versions: Observable<any>;
+  products: Observable<any>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -33,12 +25,13 @@ export class TocFormComponent implements OnInit {
   ) {
     this.tocForm = this.formBuilder.group({
       product: 'SAP_COMMERCE',
-      version: '1905'
+      version: ''
     });
   }
 
   ngOnInit() {
-    //this.onSubmit(this.tocForm.value);
+    this.products = this.tocService.fetchProducts();
+    this.onProductChanged(true);
   }
 
   onSubmit(tocFormData) {
@@ -57,10 +50,13 @@ export class TocFormComponent implements OnInit {
     );
   }
 
-  onProductChanged() {
+  onProductChanged(loadContent: boolean) {
     this.versions = this.tocService.fetchVersions(this.tocForm.value.product);
     this.versions.subscribe(resp => {
       this.tocForm.get('version').patchValue(resp[0].key);
+      if (loadContent) {
+        //this.onSubmit(this.tocForm.value);
+      }
     });
   }
 
