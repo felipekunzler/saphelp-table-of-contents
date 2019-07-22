@@ -1,6 +1,6 @@
 <form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)">
     <div>
-        <div style="display: inline-block; margin-right: 10px">
+        <div>
             <label>Product </label>
             <ng-select [items]="products | async" style="width: 400px"
                 bindLabel="name"
@@ -10,15 +10,15 @@
             </ng-select>
         </div>
 
-        <div style="display: inline-block; margin-right: 10px">
+        <div style="margin-top: 10px">
             <label>Version </label>
-            <ng-select [items]="versions | async" style="width: 200px"
+            <ng-select [items]="versions | async" style="width: 400px"
                 bindLabel="value"
                 bindValue="key"
                 formControlName="version">
             </ng-select>
         </div>
-        <button class="button" type="submit" [disabled]="loading">Load</button>
+        <button class="button" type="submit" [disabled]="loading" style="margin-top: 10px">Load</button>
     </div>
 
 </form>

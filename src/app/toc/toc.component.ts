@@ -5,8 +5,6 @@ import { TocNode } from '../toc-node';
 
 /**
  * Todos:
- *  - Fetch products and versions (dropdown + autocomplete)
- *  - Settings for additional proxies?
  *  - Display message when proxy fails (too many requests, try later)
  *  - Unblock load if no links found.
  */
