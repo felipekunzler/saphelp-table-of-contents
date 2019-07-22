@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { TocService } from '../toc.service';
 import { TocNode } from '../toc-node';
-import { fakeAsync } from '@angular/core/testing';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-toc-form',
@@ -15,6 +15,17 @@ export class TocFormComponent implements OnInit {
   links: TocNode[] = [];
   loading = false;
   pagesLoaded = 0;
+  products = [
+    {
+      name: 'SAP Commerce',
+      code: 'SAP_COMMERCE'
+    }, {
+      name: 'SAP Commerce Cloud',
+      code: 'SAP_COMMERCE_CLOUD_PUBLIC_CLOUD'
+    }
+  ];
+
+  versions: Observable<[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -27,7 +38,7 @@ export class TocFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.onSubmit(this.tocForm.value);
+    //this.onSubmit(this.tocForm.value);
   }
 
   onSubmit(tocFormData) {
@@ -36,14 +47,21 @@ export class TocFormComponent implements OnInit {
     this.links = [];
     const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
     observable.subscribe({
-        next: toc => {
-          this.links.push(toc);
-          this.pagesLoaded += this.getNumberOfPages(toc);
-          this.links.sort((a, b) => a.name.localeCompare(b.name));
-        },
-        complete: () => this.loading = false
-      }
+      next: toc => {
+        this.links.push(toc);
+        this.pagesLoaded += this.getNumberOfPages(toc);
+        this.links.sort((a, b) => a.name.localeCompare(b.name));
+      },
+      complete: () => this.loading = false
+    }
     );
+  }
+
+  onProductChanged() {
+    this.versions = this.tocService.fetchVersions(this.tocForm.value.product);
+    this.versions.subscribe(resp => {
+      this.tocForm.get('version').patchValue(resp[0].key);
+    });
   }
 
   getNumberOfPages(item: TocNode) {

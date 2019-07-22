@@ -1,12 +1,22 @@
 <form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)">
     <div>
-        <label>Product Code </label>
-        <input type="text" formControlName="product">
+        <label>Product </label>
+        <ng-select [items]="products"
+            bindLabel="name"
+            bindValue="code"
+            formControlName="product"
+            (change)="onProductChanged()">
+        </ng-select>
 
         <label> Version </label>
-        <input type="text" formControlName="version">
+        <ng-select [items]="versions | async"
+            bindLabel="value"
+            bindValue="key"
+            formControlName="version">
+        </ng-select>
 
         <button class="button" type="submit" [disabled]="loading">Load</button>
+
     </div>
 
 </form>

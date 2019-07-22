@@ -2,20 +2,22 @@ import { Injectable } from '@angular/core';
 import { TocNode } from './toc-node';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TocService {
 
+  proxy = 'https://custom-cors-anywhere.herokuapp.com/';
+
   constructor(
     private http: HttpClient
   ) { }
 
   buildTocTree(product: string, version: string): Observable<TocNode> {
-    const proxy = 'https://custom-cors-anywhere.herokuapp.com/';
     const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&onlyproduct=false&product=';
-    const baseUrl = proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
+    const baseUrl = this.proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 
     return new Observable<TocNode>(observable => {
       const resp = this.http.get(baseUrl);
@@ -27,7 +29,7 @@ export class TocService {
 
         const pages = (json as any).data.deliverables
           .filter(d => d.transtype === 'html5.uacp')
-          .map(d => proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
+          .map(d => this.proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
 
         let loadedPages = 0;
         for (const page of pages) {
@@ -63,6 +65,14 @@ export class TocService {
       tocNode.children.push(this.createTocNode(child, parentUrl, version));
     }
     return tocNode;
+  }
+
+  fetchVersions(product: string) {
+    const url = this.proxy + 'https://help.sap.com/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
+    return this.http.get(url)
+      .pipe(
+        map(res => res.data.version)
+      );
   }
 
   onExpandAllClick(link: TocNode) {
