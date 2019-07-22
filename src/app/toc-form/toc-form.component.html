@@ -1,6 +1,6 @@
-<form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)" style="max-width: 700px">
+<form [formGroup]="tocForm" (ngSubmit)="onSubmit(tocForm.value)" style="max-width: 800px">
     <div class="row">
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-7" style="padding-right: 7px">
             <label>Product</label>
             <ng-select [items]="products | async"
                 bindLabel="name"
@@ -9,18 +9,18 @@
                 (change)="onProductChanged(false)">
             </ng-select>
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-md-5">
             <div class="row align-items-end">
-                <div class="col">     
+                <div class="col" style="padding-right: 7px">     
                     <label>Version</label>
-                    <ng-select [items]="versions | async" 
+                    <ng-select [items]="versions | async"
                         bindLabel="value"
                         bindValue="key"
                         formControlName="version">
                     </ng-select>
                 </div>
                 <div class="col-auto">
-                    <button class="button" type="submit" [disabled]="loading" >Load</button>
+                    <button class="button" type="submit" [disabled]="loading" style="margin-bottom: 10px" >Load</button>
                 </div>
             </div>
         </div>
@@ -28,14 +28,16 @@
 </form>
 
 <div style="margin-top: 10px">Links loaded: {{ pagesLoaded }}</div>
-<br>
-<div *ngIf="loading">
-    <span>Loading Table of Contents...</span>
-</div>
 
-<div *ngIf="!loading">
-    <button (click)="onExpandAllPagesClick()">Expand all</button>
-    <button (click)="onCollapseAllPagesClick()">Collapse all</button>
+<div style="margin-top: 15px; margin-bottom: 15px">
+    <div *ngIf="loading">
+        <span>Loading Table of Contents...</span>
+    </div>
+
+    <div *ngIf="!loading">
+        <button (click)="onExpandAllPagesClick()">Expand all</button>
+        <button (click)="onCollapseAllPagesClick()">Collapse all</button>
+    </div>
 </div>
 <div *ngFor="let link of links">
     <ul>
