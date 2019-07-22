@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TocNode } from './toc-node';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -92,6 +92,7 @@ export class TocService {
     const url = this.proxy + 'https://help.sap.com/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
+        share(),
         map(res => {
           const versions = res.data.version;
           const sortedVersions = this.sortVersions(versions.map(obj => obj.key));
