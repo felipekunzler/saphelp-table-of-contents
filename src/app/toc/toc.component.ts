@@ -6,7 +6,8 @@ import { TocNode } from '../toc-node';
 /**
  * Todos:
  *  - Display message when proxy fails (too many requests, try later)
- *  - Unblock load if no links found.
+ *  - Unblock load if no links found (e.g abap).
+ *  - Why 2 requests for filter?
  */
 @Component({
   selector: 'app-toc',

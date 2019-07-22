@@ -88,7 +88,17 @@ export class TocService {
     const url = this.proxy + 'https://help.sap.com/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
-        map(res => res.data.version)
+        map(res => {
+          const versions = res.data.version;
+          const sortedVersions = this.sortVersions(versions.map(obj => obj.key));
+          const keys = sortedVersions.map(key => {
+            return {
+              key,
+              value: versions.find(o => o.key === key).value
+            };
+          });
+          return keys;
+        })
       );
   }
 
@@ -104,6 +114,39 @@ export class TocService {
       node.visible = false;
       this.onCollapseAllClick(node);
     });
+  }
+
+  sortVersions(e) {
+    for (var t = [], n = [], r = 0, a = 0; a < e.length; a++) {
+      var i = e[a];
+      if (!/^(\d+\.)*\d+$/.test(i)) {
+        var t = e.sort().reverse();
+        return t.slice(0)
+      }
+      for (var o = i.split("."), s = 0; s < o.length; s++)
+        o[s] = parseInt(o[s]);
+      var l = {
+        version: i,
+        tokens: o
+      };
+      o.length > r && (r = o.length),
+        n.push(l)
+    }
+    for (a = 0; a < n.length; a++)
+      for (; n[a].tokens.length < r;)
+        n[a].tokens.push(0);
+    return n.sort(function (e, t) {
+      for (var n = e.tokens, r = t.tokens, a = 0; a < n.length; a++) {
+        if (n[a] === r[a] && a === n.length - 1)
+          return 0;
+        if (n[a] !== r[a])
+          return n[a] > r[a] ? -1 : 1
+      }
+    }),
+      t = n.map(function (e) {
+        return e.version
+      }),
+      t.slice(0)
   }
 
 }

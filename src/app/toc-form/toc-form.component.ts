@@ -53,9 +53,11 @@ export class TocFormComponent implements OnInit {
   onProductChanged(loadContent: boolean) {
     this.versions = this.tocService.fetchVersions(this.tocForm.value.product);
     this.versions.subscribe(resp => {
-      this.tocForm.get('version').patchValue(resp[0].key);
-      if (loadContent) {
-        //this.onSubmit(this.tocForm.value);
+      if (resp[0]) {
+        this.tocForm.get('version').patchValue(resp[0].key);
+        if (loadContent) {
+          this.onSubmit(this.tocForm.value);
+        }
       }
     });
   }
