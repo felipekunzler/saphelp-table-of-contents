@@ -14,6 +14,7 @@ export class TocFormComponent implements OnInit {
   tocForm;
   links: TocNode[] = [];
   loading = false;
+  loadingProducts = true;
   pagesLoaded = 0;
 
   versions: Observable<any>;
@@ -27,11 +28,14 @@ export class TocFormComponent implements OnInit {
       product: 'SAP_COMMERCE',
       version: ''
     });
+    this.tocForm.disable();
   }
 
   ngOnInit() {
     this.products = this.tocService.fetchProducts();
-    this.onProductChanged(true);
+    this.products.subscribe(resp => {
+      this.onProductChanged(true);
+    });
   }
 
   onSubmit(tocFormData) {
@@ -53,6 +57,8 @@ export class TocFormComponent implements OnInit {
   onProductChanged(loadContent: boolean) {
     this.versions = this.tocService.fetchVersions(this.tocForm.value.product);
     this.versions.subscribe(resp => {
+      this.loadingProducts = false;
+      this.tocForm.enable();
       if (resp[0]) {
         this.tocForm.get('version').patchValue(resp[0].key);
         if (loadContent) {

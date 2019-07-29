@@ -20,14 +20,21 @@
                     </ng-select>
                 </div>
                 <div class="col-auto">
-                    <button class="button" type="submit" [disabled]="loading" style="margin-bottom: 10px" >Load</button>
+                    <button class="button" type="submit" [disabled]="loading || loadingProducts" style="margin-bottom: 10px" >Load</button>
                 </div>
             </div>
         </div>
     </div>
 </form>
 
-<div style="margin-top: 10px">Links loaded: {{ pagesLoaded }}</div>
+<div style="margin-top: 10px">
+    <div *ngIf="loadingProducts">
+        Loading products...
+    </div>
+    <div *ngIf="!loadingProducts">
+        Links loaded: {{ pagesLoaded }}
+    </div>
+</div>
 
 <div style="margin-top: 15px; margin-bottom: 15px">
     <div *ngIf="loading">
