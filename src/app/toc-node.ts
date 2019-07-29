@@ -3,4 +3,5 @@ export interface TocNode {
   link: string;
   visible: boolean;
   children: TocNode[];
+  title: string;
 }

@@ -6,7 +6,6 @@ import { TocNode } from '../toc-node';
 /**
  * Todos:
  *  - Display message when proxy fails (too many requests, try later)
- *  - Show hint with path
  *  - Improve on mobile
  */
 @Component({

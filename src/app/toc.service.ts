@@ -48,7 +48,7 @@ export class TocService {
             const item = pageToc.length > 1 ? root : pageToc[0];
             const loio = (pageJson as any).data.deliverable.loio;
 
-            const tocNode = this.createTocNode(item, loio, version);
+            const tocNode = this.createTocNode(item, loio, version, '');
             tocNode.visible = true;
             tocNode.children.forEach(child => child.visible = true);
 
@@ -63,16 +63,17 @@ export class TocService {
     });
   }
 
-  createTocNode(item, parentUrl, version): TocNode {
+  createTocNode(item, parentUrl, version, parentTitle): TocNode {
     const url = 'https://help.sap.com/viewer/' + parentUrl + '/' + version + '/en-US/' + item.u;
     const tocNode: TocNode = {
       name: item.t,
       link: url,
       visible: false,
-      children: []
+      children: [],
+      title: parentTitle + item.t
     };
     for (const child of item.c) {
-      tocNode.children.push(this.createTocNode(child, parentUrl, version));
+      tocNode.children.push(this.createTocNode(child, parentUrl, version, tocNode.title + ' >\n'));
     }
     return tocNode;
   }
