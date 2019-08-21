@@ -9,14 +9,14 @@ import { map, share } from 'rxjs/operators';
 })
 export class TocService {
 
-  proxy = 'https://custom-cors-anywhere.herokuapp.com/';
+  proxy = 'https://custom-cors-anywhere.herokuapp.com/'; // Use 'https://cors-anywhere.herokuapp.com/' to run locally.
 
   constructor(
     private http: HttpClient
   ) { }
 
   buildTocTree(product: string, version: string): Observable<TocNode> {
-    const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&onlyproduct=false&product=';
+    const helpUrl = 'https://help.sap.com/http.svc/productpagedeprecated?locale=en-US&product=';
     const baseUrl = this.proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 
     return new Observable<TocNode>(observable => {
