@@ -10,6 +10,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 
+/**
+ * Todos:
+ *  - Display message when proxy fails or sap API breaks
+ *  - Improve css on mobile
+ */
 @NgModule({
   declarations: [
     AppComponent,

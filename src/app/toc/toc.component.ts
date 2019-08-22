@@ -3,11 +3,6 @@ import { TocService } from '../toc.service';
 import { TocNode } from '../toc-node';
 
 
-/**
- * Todos:
- *  - Display message when proxy fails (too many requests, try later)
- *  - Improve on mobile
- */
 @Component({
   selector: 'app-toc',
   templateUrl: './toc.component.html',

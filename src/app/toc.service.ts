@@ -9,7 +9,7 @@ import { map, share } from 'rxjs/operators';
 })
 export class TocService {
 
-  proxy = 'https://custom-cors-anywhere.herokuapp.com/'; // Use 'https://cors-anywhere.herokuapp.com/' to run locally.
+  proxy = 'https://custom-cors-anywhere.herokuapp.com/';
 
   constructor(
     private http: HttpClient
@@ -73,7 +73,8 @@ export class TocService {
       title: parentTitle + item.t
     };
     for (const child of item.c) {
-      tocNode.children.push(this.createTocNode(child, parentUrl, version, tocNode.title + ' >\n'));
+      const nextTitle = parentTitle === '' ? '> ' + tocNode.title + '\n> ' : tocNode.title + '\n> ';
+      tocNode.children.push(this.createTocNode(child, parentUrl, version, nextTitle));
     }
     return tocNode;
   }
