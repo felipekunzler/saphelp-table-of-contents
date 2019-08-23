@@ -25,8 +25,8 @@ export class TocFormComponent implements OnInit {
     private tocService: TocService,
   ) {
     this.tocForm = this.formBuilder.group({
-      product: 'SAP_COMMERCE',
-      version: ''
+      product: localStorage.getItem('product') || 'SAP_COMMERCE',
+      version: localStorage.getItem('version') || ''
     });
     this.tocForm.disable();
   }
@@ -34,7 +34,7 @@ export class TocFormComponent implements OnInit {
   ngOnInit() {
     this.products = this.tocService.fetchProducts();
     this.products.subscribe(resp => {
-      this.onProductChanged(true);
+      this.onProductChanged(true, true);
     });
   }
 
@@ -43,6 +43,8 @@ export class TocFormComponent implements OnInit {
     this.pagesLoaded = 0;
     this.links = [];
     const observable = this.tocService.buildTocTree(tocFormData.product, tocFormData.version);
+    localStorage.setItem('product', tocFormData.product);
+    localStorage.setItem('version', tocFormData.version);
     observable.subscribe({
       next: toc => {
         this.links.push(toc);
@@ -50,17 +52,20 @@ export class TocFormComponent implements OnInit {
         this.links.sort((a, b) => a.name.localeCompare(b.name));
       },
       complete: () => this.loading = false
-    }
-    );
+    });
   }
 
-  onProductChanged(loadContent: boolean) {
+  onProductChanged(loadContent: boolean, firstLoad: boolean) {
     this.versions = this.tocService.fetchVersions(this.tocForm.value.product);
     this.versions.subscribe(resp => {
       this.loadingProducts = false;
       this.tocForm.enable();
       if (resp[0]) {
-        this.tocForm.get('version').patchValue(resp[0].key);
+        if (firstLoad) {
+          this.tocForm.get('version').patchValue(this.tocForm.value.version || resp[0].key);
+        } else {
+          this.tocForm.get('version').patchValue(resp[0].key);
+        }
         if (loadContent) {
           this.onSubmit(this.tocForm.value);
         }
