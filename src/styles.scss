@@ -10,8 +10,7 @@
 }
 
 body {
-  line-height: 1.1;
-  font-weight: 300;
+  line-height: 1.15;
 }
 
 /* Text */
@@ -71,13 +70,22 @@ label {
   align-items: center;
   padding: 8px 16px;
   border-radius: 2px;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
   background-color: #1067be;
   color: white;
   border: none;
   margin-right: 10px;
   height: 36px;
+}
+
+.submit-div {
+  padding-right: unset;
+}
+
+.expand-collpase button {
+  padding: 8px 12px;
+  height: 32px;
 }
 
 .button:hover, button:hover {

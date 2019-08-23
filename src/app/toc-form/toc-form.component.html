@@ -19,8 +19,8 @@
                         formControlName="version">
                     </ng-select>
                 </div>
-                <div class="col-auto">
-                    <button class="button" type="submit" [disabled]="loading || loadingProducts" style="margin-bottom: 10px" >Load</button>
+                <div class="col-auto submit-div">
+                    <button class="button" type="submit" [disabled]="loading || loadingProducts" style="margin-bottom: 10px">Load</button>
                 </div>
             </div>
         </div>
@@ -41,7 +41,7 @@
         <span>Loading Table of Contents...</span>
     </div>
 
-    <div *ngIf="!loading">
+    <div *ngIf="!loading" class="expand-collpase">
         <button (click)="onExpandAllPagesClick()">Expand all</button>
         <button (click)="onCollapseAllPagesClick()">Collapse all</button>
     </div>
