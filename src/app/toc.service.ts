@@ -83,6 +83,7 @@ export class TocService {
     const url = this.proxy + 'https://help.sap.com/http.svc/search?area=browser&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
+        share(),
         map(res => {
           const products = [];
           for (const product of (res as any).data.products) {
