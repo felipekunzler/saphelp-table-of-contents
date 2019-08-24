@@ -5,33 +5,25 @@
   font-family: 'Roboto', Arial, sans-serif;
   color: #424141;
   box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   line-height: 1.15;
 }
 
-/* Text */
-
 h1 {
   font-size: 30px;
-}
-
-h2 {
-  font-size: 20px;
-}
-
-h1, h2 {
   font-weight: lighter;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1:hover, .icon-svg:hover {
+  opacity: 0.8;
 }
 
 p {
   font-size: 14px;
 }
-
-/* Hyperlink */
 
 a {
   cursor: pointer;
@@ -41,8 +33,6 @@ a {
 a:hover {
   opacity: 0.8;
 }
-
-/* Input */
 
 input {
   font-size: 14px;
@@ -124,4 +114,54 @@ app-top-header h1 {
 
 app-top-header a {
   text-decoration: none !important;
+}
+
+.line-anchor span {
+  border-left: solid;
+  border-width: 2px;
+  border-color: rgb(160, 159, 159);
+}
+
+.line-anchor:hover span {
+  border-color: rgb(77, 76, 76);
+}
+
+.line-anchor {
+  display: flex;
+  padding: 0px 5px;
+}
+
+li {
+  display: unset;
+}
+
+ul {
+  padding-inline-start: 5px;
+}
+
+.flex {
+  display: flex;
+  margin-bottom: 10px;
+  margin-left: 25px;
+}
+
+.node-link {
+  margin-right: 5px;
+}
+
+.hidden {
+  display: none;
+}
+
+form .row {
+  margin-right: -10px;
+}
+
+.submit-div button {
+  margin-bottom: 10px;
+  margin-right: 4px;
+}
+
+.toc-container {
+  overflow: auto;
 }

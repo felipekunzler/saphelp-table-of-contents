@@ -20,7 +20,7 @@
                     </ng-select>
                 </div>
                 <div class="col-auto submit-div">
-                    <button class="button" type="submit" [disabled]="loading || loadingProducts" style="margin-bottom: 10px">Load</button>
+                    <button class="button" type="submit" [disabled]="loading || loadingProducts">Load</button>
                 </div>
             </div>
         </div>
@@ -46,8 +46,10 @@
         <button (click)="onCollapseAllPagesClick()">Collapse all</button>
     </div>
 </div>
-<div *ngFor="let link of links">
-    <ul>
-        <app-toc [link]="link"></app-toc>
-    </ul>
+<div class="toc-container">
+    <div *ngFor="let link of links">
+        <ul>
+            <app-toc [link]="link"></app-toc>
+        </ul>
+    </div>
 </div>
