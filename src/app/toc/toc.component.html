@@ -1,10 +1,10 @@
 <div [ngClass]="{'hidden': !link.visible}">
     <li>
-        <span *ngIf="link.children.length">
-            <a href="javascript:void(0)" class='node-link' (click)="onExpandClick(link)" title="Expand first level children">+</a>
-            <a href="javascript:void(0)" class='node-link' (click)="onExpandAllClick(link)" title="Expand all children recursively">+</a>
-        </span>
         <a [href]="link.link" [title]="link.title">{{ link.name }}</a>
+        <span *ngIf="link.children.length">
+            <a href="javascript:void(0)" class='node-link link-a' (click)="onExpandClick(link)" title="Expand first level children">[+]</a>
+            <a href="javascript:void(0)" class='node-link' (click)="onExpandAllClick(link)" title="Expand all children recursively">[++]</a>
+        </span>
     </li>
 
     <div *ngIf="link.children.length" [ngClass]="{'hidden': !link.children[0].visible}" class="flex">
