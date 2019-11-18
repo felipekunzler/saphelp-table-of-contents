@@ -5,7 +5,7 @@ Gathers the ToC from all pages of a given SAP product and version, allowing you 
 
 Data is fetched using public REST APIs from https://help.sap.com/http.svc. Example: https://help.sap.com/http.svc/pagecontent?deliverable_id=21802329
 
-![](https://user-images.githubusercontent.com/9336586/63524339-3a315a80-c4d2-11e9-8f64-8bb48e9d8f1b.png)
+![](https://user-images.githubusercontent.com/9336586/69056343-86ffd100-09ee-11ea-9468-67799504bdb7.png)
 
 ## Development server
 Run `npm install` followed by `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
