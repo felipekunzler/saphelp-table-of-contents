@@ -16,47 +16,57 @@ export class TocService {
   ) { }
 
   buildTocTree(product: string, version: string): Observable<TocNode> {
-    const helpUrl = 'https://help.sap.com/http.svc/productpagedeprecated?locale=en-US&product=';
+    const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&product=';
     const baseUrl = this.proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 
     return new Observable<TocNode>(observable => {
       const resp = this.http.get(baseUrl);
       resp.subscribe(json => {
-        if (!(json as any).data.deliverables) {
+        if (!(json as any).data.kpTasks) {
           observable.complete();
           return;
         }
 
-        const pages = (json as any).data.deliverables
-          .filter(d => d.transtype === 'html5.uacp')
-          .map(d => this.proxy + 'https://help.sap.com/http.svc/pagecontent?deliverable_id=' + d.id + '&deliverable_loio=' + d.loio);
+        const rootPages = (json as any).data.kpTasks
+          .flatMap(task => task.contentCategories)
+          .flatMap(category => category.links)
+          .filter(link => link.format === 'html5.uacp')
+          .map(link => link.href.split('/')[2])
+          .map(loio => this.proxy + 'https://help.sap.com/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio='
+                                  + loio + '&language=en-US&state=PRODUCTION&toc=1&version=' + version);
 
-        if (pages.length === 0) {
+        if (rootPages.length === 0) {
           observable.complete();
         }
 
         let loadedPages = 0;
-        for (const page of pages) {
-          this.http.get(page).subscribe(pageJson => {
-            const pageToc = (pageJson as any).data.deliverable.fullToc;
+        for (const rootPage of rootPages) {
+          this.http.get(rootPage).subscribe(rootPageJson => {
+            const page = this.proxy + 'https://help.sap.com/http.svc/pagecontent?deliverableInfo=1&deliverable_id='
+                                    + (rootPageJson as any).data.deliverable.id;
 
-            const root = {
-              u: '',
-              t: (pageJson as any).data.deliverable.title,
-              c: pageToc
-            };
-            const item = pageToc.length > 1 ? root : pageToc[0];
-            const loio = (pageJson as any).data.deliverable.loio;
+            this.http.get(page).subscribe(pageJson => {
+              const pageToc = (pageJson as any).data.deliverable.fullToc;
 
-            const tocNode = this.createTocNode(item, loio, version, '');
-            tocNode.visible = true;
-            tocNode.children.forEach(child => child.visible = true);
+              const root = {
+                u: '',
+                t: (pageJson as any).data.deliverable.title,
+                c: pageToc
+              };
+              const item = pageToc.length > 1 ? root : pageToc[0];
+              const loio = (pageJson as any).data.deliverable.loio;
 
-            observable.next(tocNode);
-            loadedPages++;
-            if (loadedPages === pages.length) {
-              observable.complete();
-            }
+              const tocNode = this.createTocNode(item, loio, version, '');
+              tocNode.visible = true;
+              tocNode.children.forEach(child => child.visible = true);
+
+              observable.next(tocNode);
+              loadedPages++;
+              if (loadedPages === rootPages.length) {
+                observable.complete();
+              }
+            });
+
           });
         }
       });

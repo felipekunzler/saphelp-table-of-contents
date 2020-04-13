@@ -2,7 +2,7 @@
 
 Gathers the ToC from all pages of a given SAP product and version, allowing you to easily navigate through the complete table of contents by expanding and collapsing its items. Hit `Expand all` and quickly search for any page using `Ctrl+F`.
 
-For a live version of this app, go to https://felipekunzler.github.io/saphelp-table-of-contents/. 
+For a live version of this app, go to https://felipekunzler.github.io/saphelp-table-of-contents/
 
 Data is fetched using public REST APIs from https://help.sap.com/http.svc. Example: https://help.sap.com/http.svc/pagecontent?deliverable_id=21802329
 
