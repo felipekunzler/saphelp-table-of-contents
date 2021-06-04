@@ -1,4 +1,4 @@
-import { TocNode } from 'src/app/toc-node';
+import { TocNode } from 'src/app/types';
 
 const links: TocNode[] = [
   {

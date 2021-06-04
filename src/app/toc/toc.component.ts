@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TocService } from '../toc.service';
-import { TocNode } from '../toc-node';
+import { TocNode } from '../types';
 
 
 @Component({

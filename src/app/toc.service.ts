@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TocNode } from './toc-node';
+import { Product, TocNode, Version } from './types';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, share } from 'rxjs/operators';
@@ -9,18 +9,19 @@ import { map, share } from 'rxjs/operators';
 })
 export class TocService {
 
-  proxy = 'https://custom-cors-anywhere.herokuapp.com/';
+  readonly proxy = 'https://custom-cors-anywhere.herokuapp.com/';
+  readonly helpBaseUrl = 'https://help.sap.com';
 
   constructor(
     private http: HttpClient
   ) { }
 
   buildTocTree(product: string, version: string): Observable<TocNode> {
-    const helpUrl = 'https://help.sap.com/http.svc/productpage?locale=en-US&product=';
-    const baseUrl = this.proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
+    const helpUrl = this.helpBaseUrl + '/http.svc/productpage?locale=en-US&product=';
+    const url = this.proxy + helpUrl + product + '&state=PRODUCTION&version=' + version;
 
     return new Observable<TocNode>(observable => {
-      const resp = this.http.get(baseUrl);
+      const resp = this.http.get(url);
       resp.subscribe(json => {
         if (!(json as any).data.kpTasks) {
           observable.complete();
@@ -32,7 +33,7 @@ export class TocService {
           .flatMap(category => category.links)
           .filter(link => link.format === 'html5.uacp')
           .map(link => link.href.split('/')[2])
-          .map(loio => this.proxy + 'https://help.sap.com/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio='
+          .map(loio => this.proxy + this.helpBaseUrl + '/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio='
                                   + loio + '&language=en-US&state=PRODUCTION&toc=1&version=' + version);
 
         if (rootPages.length === 0) {
@@ -42,7 +43,7 @@ export class TocService {
         let loadedPages = 0;
         for (const rootPage of rootPages) {
           this.http.get(rootPage).subscribe(rootPageJson => {
-            const page = this.proxy + 'https://help.sap.com/http.svc/pagecontent?deliverableInfo=1&deliverable_id='
+            const page = this.proxy + this.helpBaseUrl + '/http.svc/pagecontent?deliverableInfo=1&deliverable_id='
                                     + (rootPageJson as any).data.deliverable.id;
 
             this.http.get(page).subscribe(pageJson => {
@@ -74,7 +75,7 @@ export class TocService {
   }
 
   createTocNode(item, parentUrl, version, parentTitle): TocNode {
-    const url = 'https://help.sap.com/viewer/' + parentUrl + '/' + version + '/en-US/' + item.u;
+    const url = this.helpBaseUrl + '/viewer/' + parentUrl + '/' + version + '/en-US/' + item.u;
     const tocNode: TocNode = {
       name: item.t,
       link: url,
@@ -89,13 +90,13 @@ export class TocService {
     return tocNode;
   }
 
-  fetchProducts() {
-    const url = this.proxy + 'https://help.sap.com/http.svc/search?area=browser&state=PRODUCTION';
+  fetchProducts(): Observable<Product[]> {
+    const url = this.proxy + this.helpBaseUrl + '/http.svc/search?area=browser&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
         share(),
         map(res => {
-          const products = [];
+          const products: Product[] = [];
           for (const product of (res as any).data.products) {
             products.push({
               name: product.title,
@@ -107,15 +108,15 @@ export class TocService {
       );
   }
 
-  fetchVersions(product: string) {
-    const url = this.proxy + 'https://help.sap.com/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
+  fetchVersions(product: string): Observable<Version[]> {
+    const url = this.proxy + this.helpBaseUrl + '/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
         share(),
         map(res => {
           const versions = (res as any).data.version;
           const sortedVersions = this.sortVersions(versions.map(obj => obj.key));
-          const keys = sortedVersions.map(key => {
+          const keys: Version[] = sortedVersions.map(key => {
             return {
               key,
               value: versions.find(o => o.key === key).value
@@ -140,6 +141,9 @@ export class TocService {
     });
   }
 
+  /**
+   * Version sort from help.sap.com
+   */
   sortVersions(e) {
     for (var t: any = [], n = [], r = 0, a = 0; a < e.length; a++) {
       var i = e[a];

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { TocService } from '../toc.service';
-import { TocNode } from '../toc-node';
+import { TocNode } from '../types';
 import { Observable } from 'rxjs';
 
 @Component({
