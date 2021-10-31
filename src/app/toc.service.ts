@@ -3,6 +3,7 @@ import { Product, TocNode, Version } from './types';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, share } from 'rxjs/operators';
+import sortVersions from './sortVersions';
 
 @Injectable({
   providedIn: 'root'
@@ -70,7 +71,7 @@ export class TocService {
 
           });
         }
-      });
+      }, () => observable.error());
     });
   }
 
@@ -115,7 +116,7 @@ export class TocService {
         share(),
         map(res => {
           const versions = (res as any).data.version;
-          const sortedVersions = this.sortVersions(versions.map(obj => obj.key));
+          const sortedVersions = sortVersions(versions.map(obj => obj.key));
           const keys: Version[] = sortedVersions.map(key => {
             return {
               key,
@@ -139,42 +140,6 @@ export class TocService {
       node.visible = false;
       this.onCollapseAllClick(node);
     });
-  }
-
-  /**
-   * Version sort from help.sap.com
-   */
-  sortVersions(e) {
-    for (var t: any = [], n = [], r = 0, a = 0; a < e.length; a++) {
-      var i = e[a];
-      if (!/^(\d+\.)*\d+$/.test(i)) {
-        var t = e.sort().reverse();
-        return t.slice(0)
-      }
-      for (var o = i.split("."), s = 0; s < o.length; s++)
-        o[s] = parseInt(o[s]);
-      var l = {
-        version: i,
-        tokens: o
-      };
-      o.length > r && (r = o.length),
-        n.push(l)
-    }
-    for (a = 0; a < n.length; a++)
-      for (; n[a].tokens.length < r;)
-        n[a].tokens.push(0);
-    return n.sort(function (e, t) {
-      for (var n = e.tokens, r = t.tokens, a = 0; a < n.length; a++) {
-        if (n[a] === r[a] && a === n.length - 1)
-          return 0;
-        if (n[a] !== r[a])
-          return n[a] > r[a] ? -1 : 1
-      }
-    }),
-      t = n.map(function (e) {
-        return e.version
-      }),
-      t.slice(0)
   }
 
 }

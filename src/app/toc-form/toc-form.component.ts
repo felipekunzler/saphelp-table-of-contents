@@ -25,7 +25,7 @@ export class TocFormComponent implements OnInit {
     private tocService: TocService,
   ) {
     this.tocForm = this.formBuilder.group({
-      product: localStorage.getItem('product') || 'SAP_COMMERCE',
+      product: localStorage.getItem('product') || 'SAP_COMMERCE_CLOUD_PUBLIC_CLOUD',
       version: localStorage.getItem('version') || ''
     });
     this.tocForm.disable();
@@ -51,7 +51,8 @@ export class TocFormComponent implements OnInit {
         this.pagesLoaded += this.getNumberOfPages(toc) + 1;
         this.links.sort((a, b) => a.name.localeCompare(b.name));
       },
-      complete: () => this.loading = false
+      complete: () => this.loading = false,
+      error: () => this.loading = false
     });
   }
 
