@@ -1,0 +1,7 @@
+{
+  "/": {
+    "target": "https://help.sap.com",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
