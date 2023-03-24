@@ -10,8 +10,8 @@ import sortVersions from './sortVersions';
 })
 export class TocService {
 
-  readonly proxy = 'https://custom-cors-anywhere.herokuapp.com/';
-  readonly helpBaseUrl = 'https://help.sap.com';
+  readonly proxy = ''; //'https://custom-cors-anywhere.herokuapp.com/'
+  readonly helpBaseUrl = ''; //'https://help.sap.com';
 
   constructor(
     private http: HttpClient
@@ -33,9 +33,9 @@ export class TocService {
           .flatMap(task => task.contentCategories)
           .flatMap(category => category.links)
           .filter(link => link.format === 'html5.uacp')
-          .map(link => link.href.split('/')[2])
-          .map(loio => this.proxy + this.helpBaseUrl + '/http.svc/getpagecontent?deliverableInfo=1&deliverable_loio='
-                                  + loio + '&language=en-US&state=PRODUCTION&toc=1&version=' + version);
+          .map(link => link.href.split('/')[3].split('?')[0])
+          .map(deliverable => this.proxy + this.helpBaseUrl + '/http.svc/deliverableMetadata?deliverableInfo=1&toc=1&product_url=' +
+              product + '&' + 'deliverable_url=' + deliverable + '&language=en-US&state=PRODUCTION&version=' + version);
 
         if (rootPages.length === 0) {
           observable.complete();
@@ -99,10 +99,12 @@ export class TocService {
         map(res => {
           const products: Product[] = [];
           for (const product of (res as any).data.products) {
-            products.push({
-              name: product.title,
-              code: product.url.slice(10, product.url.length)
-            });
+            if (product.url) {
+              products.push({
+                name: product.title,
+                code: product.url.split('/')[2].split('?')[0]
+              });
+            }
           }
           return products;
         })
