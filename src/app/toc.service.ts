@@ -10,7 +10,6 @@ import sortVersions from './sortVersions';
 })
 export class TocService {
 
-  readonly proxy = 'https://corsanywhere.herokuapp.com/';
   readonly proxy = 'https://bypass-that-help.herokuapp.com/';
   readonly helpBaseUrl = 'https://help.sap.com';
 
