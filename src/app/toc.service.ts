@@ -10,6 +10,12 @@ import sortVersions from './sortVersions';
 })
 export class TocService {
 
+  /**
+   * Todo:
+   * - Prop for local not using cors
+   * - Update all other files to Angular 15
+   */
+
   readonly proxy = 'https://flpaaw.click/';
   readonly helpBaseUrl = 'https://help.sap.com';
 
