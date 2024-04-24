@@ -10,7 +10,7 @@ import sortVersions from './sortVersions';
 })
 export class TocService {
 
-  readonly proxy = 'https://corsproxy.io/?';
+  readonly proxy = 'https://flpaaw.click/';
   readonly helpBaseUrl = 'https://help.sap.com';
 
   constructor(
