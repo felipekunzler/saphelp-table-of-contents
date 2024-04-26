@@ -16,7 +16,7 @@ export class TocService {
    * - Update all other files to Angular 15
    */
 
-  readonly proxy = 'https://flpaaw.click/';
+  readonly proxy = 'https://saphelp-app-406cca848a99.herokuapp.com/';
   readonly helpBaseUrl = 'https://help.sap.com';
 
   constructor(
