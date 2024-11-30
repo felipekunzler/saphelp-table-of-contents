@@ -30,7 +30,7 @@ export class TocService {
     return new Observable<TocNode>(observable => {
       const resp = this.http.get(url);
       resp.subscribe(json => {
-        if (!(json as any).data.kpTasks) {
+        if (!(json as any)?.data?.kpTasks) {
           observable.complete();
           return;
         }
