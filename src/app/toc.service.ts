@@ -118,7 +118,7 @@ export class TocService {
   }
 
   fetchVersions(product: string): Observable<Version[]> {
-    const url = this.proxy + this.helpBaseUrl + '/http.svc/filter?element=version&product=' + product + '&state=PRODUCTION';
+    const url = this.proxy + this.helpBaseUrl + '/http.svc/filter?element=version&productpage=true&product=' + product + '&state=PRODUCTION';
     return this.http.get(url)
       .pipe(
         share(),
