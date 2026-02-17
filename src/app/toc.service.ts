@@ -41,7 +41,7 @@ export class TocService {
           .filter(link => link.format === 'html5.uacp')
           .map(link => link.href.split('/')[3].split('?')[0])
           .map(deliverable => this.proxy + this.helpBaseUrl + '/http.svc/deliverableMetadata?deliverableInfo=1&toc=1&product_url=' +
-              product + '&' + 'deliverable_url=' + deliverable + '&language=en-US&state=PRODUCTION&version=' + version);
+            product + '&' + 'deliverable_url=' + deliverable + '&language=en-US&state=PRODUCTION&version=' + version);
 
         if (rootPages.length === 0) {
           observable.complete();
@@ -50,33 +50,38 @@ export class TocService {
         let loadedPages = 0;
         for (const rootPage of rootPages) {
           this.http.get(rootPage).subscribe(rootPageJson => {
-            const page = this.proxy + this.helpBaseUrl + '/http.svc/pagecontent?deliverableInfo=1&deliverable_id='
-                                    + (rootPageJson as any).data.deliverable.id;
+            if ((rootPageJson as any)?.data?.deliverable?.id) {
 
-            this.http.get(page).subscribe(pageJson => {
-              const pageToc = (pageJson as any).data.deliverable.fullToc;
+              const page = this.proxy + this.helpBaseUrl + '/http.svc/pagecontent?deliverableInfo=1&deliverable_id='
+                + (rootPageJson as any).data.deliverable.id;
 
-              const root = {
-                u: '',
-                t: (pageJson as any).data.deliverable.title,
-                c: pageToc
-              };
-              const item = pageToc.length > 1 ? root : pageToc[0];
-              const loio = (pageJson as any).data.deliverable.loio;
+              this.http.get(page).subscribe(pageJson => {
+                const pageToc = (pageJson as any).data.deliverable.fullToc;
 
-              const tocNode = this.createTocNode(item, loio, version, '');
-              tocNode.visible = true;
-              tocNode.children.forEach(child => child.visible = true);
+                const root = {
+                  u: '',
+                  t: (pageJson as any).data.deliverable.title,
+                  c: pageToc
+                };
+                const item = pageToc.length > 1 ? root : pageToc[0];
+                const loio = (pageJson as any).data.deliverable.loio;
 
-              observable.next(tocNode);
+                const tocNode = this.createTocNode(item, loio, version, '');
+                tocNode.visible = true;
+                tocNode.children.forEach(child => child.visible = true);
+
+                observable.next(tocNode);
+                loadedPages++;
+                if (loadedPages === rootPages.length) {
+                  observable.complete();
+                }
+              });
+            } else {
               loadedPages++;
-              if (loadedPages === rootPages.length) {
-                observable.complete();
-              }
-            });
-
+            }
           });
         }
+
       }, () => observable.error());
     });
   }

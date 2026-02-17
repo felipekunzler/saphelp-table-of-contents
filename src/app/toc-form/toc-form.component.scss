@@ -1,3 +1,69 @@
 form {
   margin-top: 15px;
 }
+
+.toc-form {
+  max-width: 800px;
+}
+
+.favorite-section {
+  margin-bottom: 20px;
+  max-width: 800px;
+}
+
+.favorite-products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.favorite-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.favorite-star {
+  color: #ffc107;
+}
+
+.product-col {
+  padding-right: 7px;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.star-overlay {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 30px;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.favorite-toggle {
+  margin-top: 5px;
+}
+
+.version-col {
+  padding-right: 7px;
+}
+
+.status-block {
+  margin-top: 10px;
+}
+
+.loading-block {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
