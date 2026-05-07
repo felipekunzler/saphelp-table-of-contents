@@ -16,7 +16,7 @@ export class TocService {
    * - Update all other files to Angular 15
    */
 
-  readonly proxy = 'https://cudaada.duckdns.org/';
+  readonly proxy = 'https://cudaada.dedyn.io/';
   readonly helpBaseUrl = 'https://help.sap.com';
 
   constructor(

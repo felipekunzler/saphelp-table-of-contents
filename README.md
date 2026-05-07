@@ -11,5 +11,5 @@ Data is fetched using public REST APIs from https://help.sap.com/http.svc. Examp
 ## Development server
 With Node 18, run `npm install` followed by `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-To publish changes, run `npx ng build --output-path docs --base-href /saphelp-table-of-contents/` then `cp docs/index.html docs/404.html` and push.
+To publish changes, run `npx ng build --output-path docs --base-href /saphelp-table-of-contents/ && cp docs/index.html docs/404.html` and push.
 
